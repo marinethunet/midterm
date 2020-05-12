@@ -81,12 +81,25 @@ public class Vigenere
     
     public static float IndexOfCoincidence(string str)
     {
-        throw new NotImplementedException();
+        int[] histo = Tools.Histogram(str);
+        float ret=0;
+        int i = 0;
+        int lh = histo.Length;
+        int l = str.Length;
+        float deno = l*(l - 1);
+        while (i < lh)
+        {
+            float occ = histo[i];
+            ret += (occ * (occ - 1))/ deno;
+            i++;
+        }
+
+        return ret;
     }
 
     public static int GuessKeyLength(string cypherText)
     {
-        throw new NotImplementedException();
+        throw new NotImplementedException();   
     }
     
     public static string GuessKey(string cypherText)

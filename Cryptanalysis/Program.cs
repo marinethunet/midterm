@@ -25,7 +25,8 @@ internal static class Program
                       "ne triche pas necessairement tout le temps, mais se repose plutot sur" +
                       "une tactique trompeuse au point d'en acquerir la reputation.";
         Console.Write(Vigenere.GuessKeyWithLength( text, 3));
-
+        
+        Console.WriteLine(Vigenere.IndexOfCoincidence(text));
     }
 
     private static void Test()
