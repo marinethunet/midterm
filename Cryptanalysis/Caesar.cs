@@ -1,27 +1,62 @@
 using System;
+using System.Numerics;
 
 namespace Cryptanalysis
 {
 public class Caesar
 {
-    public Caesar(int key)
+    private int key;
+    public Caesar(int key)//ok
     {
-        throw new NotImplementedException();
+        this.key = key;
     }
 
-    public string Encrypt(string msg)
+    public string Encrypt(string msg)//ok
     {
-        throw new NotImplementedException();
+        string ret = "";
+        int i = 0;
+        int l = msg.Length;
+        while (i < l)
+        {
+            char re=Tools.RotChar(msg[i], key);
+            ret += re;
+            i++;
+        }
+        return ret;
     }
 
-    public string Decrypt(string cypherText)
+    public string Decrypt(string cypherText)//ok
     {
-        throw new NotImplementedException();
+        string ret = "";
+        int i = 0;
+        int l = cypherText.Length;
+        while (i < l)
+        {
+            char re=Tools.RotChar(cypherText[i], -key);
+            ret += re;
+            i++;
+        }
+        return ret; 
     }
     
-    public static int GuessKey(string cypherText)
+    public static int GuessKey(string cypherText)//passur
     {
-        throw new NotImplementedException();
+        int[] hist=Tools.Histogram(cypherText);
+        int rankmax = 0;
+        int valmax = 0;
+        int i= 0;
+        foreach (var val in hist)
+        {
+            if (valmax <val)
+            {
+                rankmax = i;
+            }
+            i++;
+        }
+
+        int key = Tools.Modulus(4 - i, 26);
+
+        return key;
     }
 }
 }
