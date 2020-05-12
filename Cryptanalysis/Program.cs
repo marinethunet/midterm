@@ -8,6 +8,24 @@ internal static class Program
     {
         // Put your tests here.
         Test();
+        Console.WriteLine(Caesar.GuessKey("My exam is so interesting! Thanks ACDC <3"));
+        string text = "La triche consiste a recevoir, en situation de concurrence," +
+                      "une recompense indue grace a ses capacites a contourner ou enfreindre les" +
+                      "regles juridiques ou morales (principes de vie en societe, reglementation," +
+                      "conventions), ou a trouver un moyen facile de se sortir d'une situation" +
+                      "desagreable par des moyens malhonnetes. Cette definition large comprend" +
+                      "necessairement les actes de corruption, de copinage, de nepotisme et toute" +
+                      "situation dans laquelle des individus ont la preference en utilisant des" +
+                      "criteres inappropries1.Les regles enfreintes peuvent etre explicites ou" +
+                      "provenir d'un code de conduite non ecrit base sur la moralite," +
+                      "l'ethique ou la coutume. L'identification de la tricherie est un" +
+                      "processus potentiellement subjectif.La tricherie peut faire specifiquement" +
+                      "reference a l'infidelite.Une personne connue pour avoir triche est" +
+                      "qualifiee de << tricheur >>. Une personne decrite comme un << tricheur >>" +
+                      "ne triche pas necessairement tout le temps, mais se repose plutot sur" +
+                      "une tactique trompeuse au point d'en acquerir la reputation.";
+        Console.Write(Vigenere.GuessKeyWithLength( text, 3));
+
     }
 
     private static void Test()

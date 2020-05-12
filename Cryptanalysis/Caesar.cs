@@ -49,13 +49,13 @@ public class Caesar
         {
             if (valmax <val)
             {
+                valmax = val;
                 rankmax = i;
             }
             i++;
         }
 
-        int key = Tools.Modulus(4 - i, 26);
-
+        int key = Tools.Modulus(rankmax-4, 26);
         return key;
     }
 }

@@ -69,7 +69,14 @@ public class Vigenere
 
     public static string GuessKeyWithLength(string cypherText, int keyLength)
     {
-        throw new NotImplementedException();
+        string key = "";
+        for (int i = 0; i < keyLength; i++)
+        {
+            string tempstring=Tools.Extract(Tools.FilterLetters(cypherText),i,keyLength);
+            key+=(Caesar.GuessKey(tempstring)).ToString();
+        }
+
+        return key;
     }
     
     public static float IndexOfCoincidence(string str)
