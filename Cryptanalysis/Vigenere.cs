@@ -2,109 +2,122 @@ using System;
 
 namespace Cryptanalysis
 {
-public class Vigenere
-{
-    public const float FrenchIndexOfCoincidence = 0.0778F;
-    private string key;
-    public Vigenere(string key)//ok
+    public class Vigenere
     {
-        this.key = key;
-    }
+        public const float FrenchIndexOfCoincidence = 0.0778F;
+        private string key;
 
-    public string Encrypt(string msg)//ok
-    {
-        string ret = "";
-        int imsg = 0;
-        int lmsg = msg.Length;
-        int ik = 0;
-        int lk = this.key.Length;
-        char test;
-        while (imsg<lmsg)
+        public Vigenere(string key) //ok
         {
-            int c = Tools.LetterIndex(msg[imsg]);
-            if (c != -1)
-            { 
-                test=Tools.RotChar(msg[imsg], Tools.LetterIndex(key[ik]));
-                ret += test;
-                ik = Tools.Modulus(ik + 1, lk);
-            }
-            else
+            this.key = key;
+        }
+
+        public string Encrypt(string msg) //ok
+        {
+            string ret = "";
+            int imsg = 0;
+            int lmsg = msg.Length;
+            int ik = 0;
+            int lk = this.key.Length;
+            char test;
+            while (imsg < lmsg)
             {
-                ret += msg[imsg];
+                int c = Tools.LetterIndex(msg[imsg]);
+                if (c != -1)
+                {
+                    test = Tools.RotChar(msg[imsg], Tools.LetterIndex(key[ik]));
+                    ret += test;
+                    ik = Tools.Modulus(ik + 1, lk);
+                }
+                else
+                {
+                    ret += msg[imsg];
+                }
+
+                imsg++;
             }
 
-            imsg++;
+            return ret;
         }
 
-        return ret;
-    }
-
-    public string Decrypt(string cypherText)//ok
-    {
-        string ret = "";
-        int imsg = 0;
-        int lmsg = cypherText.Length;
-        int ik = 0;
-        int lk = this.key.Length;
-        char test;
-        while (imsg<lmsg)
+        public string Decrypt(string cypherText) //ok
         {
-            int c = Tools.LetterIndex(cypherText[imsg]);
-            if (c != -1)
-            { 
-                test=Tools.RotChar(cypherText[imsg], -Tools.LetterIndex(key[ik]));
-                ret += test;
-                ik = Tools.Modulus(ik + 1, lk);
-            }
-            else
+            string ret = "";
+            int imsg = 0;
+            int lmsg = cypherText.Length;
+            int ik = 0;
+            int lk = this.key.Length;
+            char test;
+            while (imsg < lmsg)
             {
-                ret += cypherText[imsg];
+                int c = Tools.LetterIndex(cypherText[imsg]);
+                if (c != -1)
+                {
+                    test = Tools.RotChar(cypherText[imsg], -Tools.LetterIndex(key[ik]));
+                    ret += test;
+                    ik = Tools.Modulus(ik + 1, lk);
+                }
+                else
+                {
+                    ret += cypherText[imsg];
+                }
+
+                imsg++;
             }
 
-            imsg++;
+            return ret;
         }
 
-        return ret;
-    }
-
-    public static string GuessKeyWithLength(string cypherText, int keyLength)
-    {
-        string key = "";
-        for (int i = 0; i < keyLength; i++)
+        public static string GuessKeyWithLength(string cypherText, int keyLength)
         {
-            string tempstring=Tools.Extract(Tools.FilterLetters(cypherText),i,keyLength);
-            key+=(Caesar.GuessKey(tempstring)).ToString();
+            string key = "";
+            for (int i = 0; i < keyLength; i++)
+            {
+                string tempstring = Tools.Extract(Tools.FilterLetters(cypherText), i, keyLength);
+                key += (Caesar.GuessKey(tempstring)).ToString();
+            }
+
+            return key;
         }
 
-        return key;
-    }
-    
-    public static float IndexOfCoincidence(string str)
-    {
-        int[] histo = Tools.Histogram(str);
-        float ret=0;
-        int i = 0;
-        int lh = histo.Length;
-        int l = str.Length;
-        float deno = l*(l - 1);
-        while (i < lh)
+        public static float IndexOfCoincidence(string str)
         {
-            float occ = histo[i];
-            ret += (occ * (occ - 1))/ deno;
-            i++;
+            int[] histo = Tools.Histogram(str);
+            float ret = 0;
+            int i = 0;
+            int lh = histo.Length;
+            int l = str.Length;
+            float deno = l * (l - 1);
+            while (i < lh)
+            {
+                float occ = histo[i];
+                ret += (occ * (occ - 1)) / deno;
+                i++;
+            }
+
+            return ret;
         }
 
-        return ret;
-    }
+        public static int GuessKeyLength(string cypherText)
+        {
+            int keyl = 1;
+            float test = IndexOfCoincidence(Tools.Extract(Tools.FilterLetters(cypherText), 0, keyl));
+            while ((test > 0.0778) & (test < 0.0385))
+            {
+                keyl++;
+                test = IndexOfCoincidence(Tools.Extract(Tools.FilterLetters(cypherText), 0, keyl));
+            }
 
-    public static int GuessKeyLength(string cypherText)
-    {
-        throw new NotImplementedException();   
+            return keyl;
+
+        }
+
+        public static string GuessKey(string cypherText)
+        {
+            //int keylength = GuessKeyLength(cypherText);
+            //string key = GuessKeyWithLength(cypherText, keylength);
+            //return Decrypt(cypherText);
+            throw new Exception();
+        }
     }
-    
-    public static string GuessKey(string cypherText)
-    {
-        throw new NotImplementedException();
-    }
-}
 }
